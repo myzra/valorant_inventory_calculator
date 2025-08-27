@@ -16,6 +16,12 @@ pom.xml.tag
 pom.xml.releaseBackup
 release.properties
 
+# Eclipse & STS
+.metadata/
+*.classpath
+*.project
+*.settings/
+
 # Compiled class file
 *.class
 
