@@ -1,14 +1,38 @@
+# IDEs
+.idea/
+*.iml
+*.ipr
+*.iws
+.vscode/
+
+# Build output
+/target/
+/build/
+/out/
+
+# Maven
+dependency-reduced-pom.xml
+pom.xml.tag
+pom.xml.releaseBackup
+release.properties
+
 # Compiled class file
 *.class
 
 # Log file
 *.log
+*.logs
 
 # BlueJ files
 *.ctxt
 
 # Mobile Tools for Java (J2ME)
 .mtj.tmp/
+
+# Environment
+.env
+*.local
+*.secret
 
 # Package Files #
 *.jar
