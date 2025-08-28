@@ -1,0 +1,1020 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Valorant Skin Picker</title>
+    <style>
+        /* CSS Variables */
+        :root {
+            --primary-color: #ff4655;
+            --secondary-color: #00d4ff;
+            --background-dark: #0f1419;
+            --background-mid: #1a252f;
+            --background-light: #2a3441;
+            --text-primary: #ffffff;
+            --text-secondary: #cccccc;
+            --text-muted: #888888;
+            --border-color: rgba(255, 255, 255, 0.2);
+            --border-active: rgba(255, 70, 85, 0.3);
+            --shadow-primary: rgba(255, 70, 85, 0.3);
+            --shadow-secondary: rgba(0, 212, 255, 0.2);
+            --transition: all 0.3s ease;
+        }
+
+        /* Reset and Base Styles */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, var(--background-dark) 0%, var(--background-mid) 100%);
+            color: var(--text-primary);
+            min-height: 100vh;
+            line-height: 1.6;
+        }
+
+        /* Typography */
+        h1, h2, h3 {
+            font-weight: 700;
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            background: linear-gradient(45deg, var(--primary-color), var(--secondary-color));
+            background-clip: text;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        h2 {
+            font-size: 2rem;
+        }
+
+        h3 {
+            font-size: 1.3rem;
+        }
+
+        /* Header */
+        .header {
+            background: rgba(0, 0, 0, 0.3);
+            backdrop-filter: blur(10px);
+            padding: 20px 0;
+            border-bottom: 2px solid var(--primary-color);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .header-content {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 20px;
+            padding: 0 20px;
+        }
+
+        .logo {
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(45deg, var(--primary-color), #ff6b75);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 24px;
+            color: white;
+            box-shadow: 0 4px 15px var(--shadow-primary);
+        }
+
+        /* Main Container */
+        .main-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
+
+        /* Total Cost Section */
+        .total-cost {
+            text-align: center;
+            margin-bottom: 40px;
+            padding: 20px;
+            background: rgba(255, 70, 85, 0.1);
+            border-radius: 15px;
+            border: 2px solid var(--border-active);
+        }
+
+        .total-cost h2 {
+            color: var(--primary-color);
+            margin-bottom: 10px;
+        }
+
+        /* Currency Toggle */
+        .currency-toggle {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin-top: 15px;
+        }
+
+        .currency-btn {
+            padding: 8px 16px;
+            border: 2px solid var(--primary-color);
+            background: transparent;
+            color: var(--primary-color);
+            border-radius: 8px;
+            cursor: pointer;
+            transition: var(--transition);
+            font-weight: bold;
+            font-size: 0.9rem;
+        }
+
+        .currency-btn:hover {
+            background: rgba(255, 70, 85, 0.1);
+            transform: translateY(-2px);
+        }
+
+        .currency-btn.active {
+            background: var(--primary-color);
+            color: white;
+            box-shadow: 0 4px 15px var(--shadow-primary);
+        }
+
+        /* Weapons Grid */
+        .weapons-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 30px;
+            margin-bottom: 40px;
+        }
+
+        .weapon-category {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 15px;
+            padding: 25px;
+            border: 1px solid var(--border-color);
+            backdrop-filter: blur(10px);
+            transition: var(--transition);
+        }
+
+        .weapon-category:hover {
+            border-color: var(--border-active);
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+        }
+
+        .weapon-category h3 {
+            color: var(--primary-color);
+            margin-bottom: 20px;
+            text-align: center;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        /* Weapon Grid */
+        .weapon-grid {
+            display: grid;
+            gap: 15px;
+        }
+
+        .weapon-slot {
+            background: rgba(0, 0, 0, 0.3);
+            border: 2px solid var(--border-color);
+            border-radius: 12px;
+            padding: 15px;
+            cursor: pointer;
+            transition: var(--transition);
+            text-align: center;
+            position: relative;
+            min-height: 80px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .weapon-slot:hover {
+            border-color: var(--primary-color);
+            background: rgba(255, 70, 85, 0.1);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px var(--shadow-primary);
+        }
+
+        .weapon-slot.selected {
+            border-color: var(--secondary-color);
+            background: rgba(0, 212, 255, 0.1);
+            box-shadow: 0 8px 25px var(--shadow-secondary);
+        }
+
+        /* Weapon Text */
+        .weapon-name {
+            font-weight: 600;
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .weapon-slot.selected .weapon-name {
+            color: var(--secondary-color);
+        }
+
+        .skin-name {
+            font-size: 0.8rem;
+            color: var(--primary-color);
+            margin-top: 5px;
+            font-weight: 500;
+        }
+
+        .skin-price {
+            font-size: 0.7rem;
+            color: var(--text-muted);
+            margin-top: 3px;
+        }
+
+        /* Modal Styles */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            backdrop-filter: blur(5px);
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .modal.show {
+            opacity: 1;
+        }
+
+        .modal-content {
+            background: linear-gradient(135deg, var(--background-mid) 0%, var(--background-light) 100%);
+            padding: 30px;
+            border-radius: 20px;
+            max-width: 700px;
+            width: 90%;
+            max-height: 80vh;
+            overflow-y: auto;
+            border: 2px solid var(--border-active);
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+            transform: scale(0.9);
+            transition: transform 0.3s ease;
+        }
+
+        .modal.show .modal-content {
+            transform: scale(1);
+        }
+
+        /* Modal Header */
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 25px;
+            padding-bottom: 15px;
+            border-bottom: 2px solid var(--border-active);
+        }
+
+        .modal-title {
+            font-size: 1.5rem;
+            color: var(--primary-color);
+            font-weight: 700;
+            text-transform: uppercase;
+        }
+
+        .close-btn {
+            background: none;
+            border: none;
+            font-size: 2rem;
+            color: var(--primary-color);
+            cursor: pointer;
+            padding: 5px;
+            border-radius: 8px;
+            transition: var(--transition);
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .close-btn:hover {
+            background: rgba(255, 70, 85, 0.1);
+            transform: scale(1.1);
+        }
+
+        /* Skins Grid */
+        .skins-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 15px;
+        }
+
+        .skin-option {
+            background: rgba(0, 0, 0, 0.3);
+            border: 2px solid var(--border-color);
+            border-radius: 12px;
+            padding: 15px;
+            cursor: pointer;
+            transition: var(--transition);
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .skin-option::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+            transition: left 0.5s;
+        }
+
+        .skin-option:hover::before {
+            left: 100%;
+        }
+
+        .skin-option:hover {
+            border-color: var(--secondary-color);
+            background: rgba(0, 212, 255, 0.1);
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px var(--shadow-secondary);
+        }
+
+        .skin-option.selected {
+            border-color: var(--primary-color);
+            background: rgba(255, 70, 85, 0.1);
+            box-shadow: 0 8px 25px var(--shadow-primary);
+        }
+
+        .skin-option.selected::after {
+            content: '✓';
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background: var(--primary-color);
+            color: white;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 12px;
+            font-weight: bold;
+        }
+
+        /* Skin Option Content */
+        .skin-option-name {
+            font-weight: 600;
+            color: var(--text-primary);
+            margin-bottom: 8px;
+            font-size: 1rem;
+        }
+
+        .skin-option-price {
+            color: var(--primary-color);
+            font-weight: bold;
+            font-size: 0.9rem;
+        }
+
+        /* Footer */
+        .footer {
+            text-align: center;
+            padding: 30px 20px;
+            border-top: 1px solid var(--border-color);
+            margin-top: 40px;
+            background: rgba(0, 0, 0, 0.2);
+        }
+
+        .disclaimer {
+            color: var(--text-muted);
+            font-size: 0.9rem;
+            margin-bottom: 15px;
+        }
+
+        .github-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            color: var(--secondary-color);
+            text-decoration: none;
+            font-weight: 600;
+            transition: var(--transition);
+            padding: 8px 16px;
+            border-radius: 8px;
+        }
+
+        .github-link:hover {
+            color: var(--primary-color);
+            background: rgba(255, 70, 85, 0.1);
+            transform: translateY(-2px);
+        }
+
+        .github-icon {
+            width: 24px;
+            height: 24px;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 1200px) {
+            .weapons-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (max-width: 768px) {
+            .weapons-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .header h1 {
+                font-size: 1.8rem;
+            }
+            
+            .total-cost h2 {
+                font-size: 1.5rem;
+            }
+            
+            .skins-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* Scrollbar Styling */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: var(--background-dark);
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: var(--primary-color);
+            border-radius: 4px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: var(--secondary-color);
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="header-content">
+            <div class="logo">V</div>
+            <h1>Valorant Skin Picker</h1>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <div class="main-container">
+        <div class="total-cost">
+            <h2 id="totalCost">TOTAL COST: 0 VP</h2>
+            <div class="currency-toggle">
+                <button class="currency-btn active" data-currency="vp">VP</button>
+                <button class="currency-btn" data-currency="usd">USD</button>
+                <button class="currency-btn" data-currency="eur">EUR</button>
+            </div>
+        </div>
+
+        <!-- Weapons Grid -->
+        <div class="weapons-grid">
+            <div class="weapon-category">
+                <h3>Sidearms</h3>
+                <div class="weapon-grid">
+                    <div class="weapon-slot" data-weapon="classic">
+                        <div class="weapon-name">Classic</div>
+                    </div>
+                    <div class="weapon-slot" data-weapon="shorty">
+                        <div class="weapon-name">Shorty</div>
+                    </div>
+                    <div class="weapon-slot" data-weapon="frenzy">
+                        <div class="weapon-name">Frenzy</div>
+                    </div>
+                    <div class="weapon-slot" data-weapon="ghost">
+                        <div class="weapon-name">Ghost</div>
+                    </div>
+                    <div class="weapon-slot" data-weapon="sheriff">
+                        <div class="weapon-name">Sheriff</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="weapon-category">
+                <h3>SMGs</h3>
+                <div class="weapon-grid">
+                    <div class="weapon-slot" data-weapon="stinger">
+                        <div class="weapon-name">Stinger</div>
+                    </div>
+                    <div class="weapon-slot" data-weapon="spectre">
+                        <div class="weapon-name">Spectre</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="weapon-category">
+                <h3>Shotguns</h3>
+                <div class="weapon-grid">
+                    <div class="weapon-slot" data-weapon="bucky">
+                        <div class="weapon-name">Bucky</div>
+                    </div>
+                    <div class="weapon-slot" data-weapon="judge">
+                        <div class="weapon-name">Judge</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="weapon-category">
+                <h3>Rifles</h3>
+                <div class="weapon-grid">
+                    <div class="weapon-slot" data-weapon="bulldog">
+                        <div class="weapon-name">Bulldog</div>
+                    </div>
+                    <div class="weapon-slot" data-weapon="guardian">
+                        <div class="weapon-name">Guardian</div>
+                    </div>
+                    <div class="weapon-slot" data-weapon="phantom">
+                        <div class="weapon-name">Phantom</div>
+                    </div>
+                    <div class="weapon-slot" data-weapon="vandal">
+                        <div class="weapon-name">Vandal</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="weapon-category">
+                <h3>Sniper Rifles</h3>
+                <div class="weapon-grid">
+                    <div class="weapon-slot" data-weapon="marshal">
+                        <div class="weapon-name">Marshal</div>
+                    </div>
+                    <div class="weapon-slot" data-weapon="outlaw">
+                        <div class="weapon-name">Outlaw</div>
+                    </div>
+                    <div class="weapon-slot" data-weapon="operator">
+                        <div class="weapon-name">Operator</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="weapon-category">
+                <h3>Machine Guns</h3>
+                <div class="weapon-grid">
+                    <div class="weapon-slot" data-weapon="ares">
+                        <div class="weapon-name">Ares</div>
+                    </div>
+                    <div class="weapon-slot" data-weapon="odin">
+                        <div class="weapon-name">Odin</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="weapon-category">
+                <h3>Melee</h3>
+                <div class="weapon-grid">
+                    <div class="weapon-slot" data-weapon="melee">
+                        <div class="weapon-name">Melee</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal -->
+    <div class="modal" id="skinModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 class="modal-title" id="modalTitle">Choose Skin</h3>
+                <button class="close-btn" id="closeModal">&times;</button>
+            </div>
+            <div class="skins-grid" id="skinsGrid">
+                <!-- Skins will be dynamically loaded here -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="disclaimer">
+            This website is not affiliated with Riot Games, Inc. Valorant is a trademark of Riot Games, Inc.
+        </div>
+        <a href="#" class="github-link" id="githubLink">
+            <svg class="github-icon" viewBox="0 0 24 24" fill="currentColor">
+                <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/>
+            </svg>
+            View on GitHub
+        </a>
+    </footer>
+
+    <script>
+        // Configuration and Constants
+        const CONFIG = {
+            CURRENCY: {
+                SYMBOLS: {
+                    vp: 'VP',
+                    usd: '$',
+                    eur: '€'
+                }
+            },
+            GITHUB_URL: 'https://github.com/yourusername/valorant-skin-picker'
+        };
+
+        // Mock skin data
+        const MOCK_SKINS = {
+            classic: [
+                { name: 'Default', price: { vp: 0, usd: 0, eur: 0 } },
+                { name: 'Prime', price: { vp: 1775, usd: 17.75, eur: 16.50 } },
+                { name: 'Recon', price: { vp: 1075, usd: 10.75, eur: 10.00 } },
+                { name: 'Wasteland', price: { vp: 875, usd: 8.75, eur: 8.25 } }
+            ],
+            shorty: [
+                { name: 'Default', price: { vp: 0, usd: 0, eur: 0 } },
+                { name: 'Wayfinder', price: { vp: 875, usd: 8.75, eur: 8.25 } },
+                { name: 'Hivemind', price: { vp: 1275, usd: 12.75, eur: 12.00 } }
+            ],
+            frenzy: [
+                { name: 'Default', price: { vp: 0, usd: 0, eur: 0 } },
+                { name: 'Ion', price: { vp: 1775, usd: 17.75, eur: 16.50 } },
+                { name: 'Aristocrat', price: { vp: 875, usd: 8.75, eur: 8.25 } }
+            ],
+            ghost: [
+                { name: 'Default', price: { vp: 0, usd: 0, eur: 0 } },
+                { name: 'Sovereign', price: { vp: 1775, usd: 17.75, eur: 16.50 } },
+                { name: 'Luxe', price: { vp: 875, usd: 8.75, eur: 8.25 } },
+                { name: 'Prism III', price: { vp: 1275, usd: 12.75, eur: 12.00 } }
+            ],
+            sheriff: [
+                { name: 'Default', price: { vp: 0, usd: 0, eur: 0 } },
+                { name: 'Singularity', price: { vp: 2175, usd: 21.75, eur: 20.50 } },
+                { name: 'Magepunk', price: { vp: 2175, usd: 21.75, eur: 20.50 } },
+                { name: 'Death Wish', price: { vp: 1275, usd: 12.75, eur: 12.00 } }
+            ],
+            stinger: [
+                { name: 'Default', price: { vp: 0, usd: 0, eur: 0 } },
+                { name: 'Tigris', price: { vp: 875, usd: 8.75, eur: 8.25 } },
+                { name: 'Nitro', price: { vp: 1275, usd: 12.75, eur: 12.00 } }
+            ],
+            spectre: [
+                { name: 'Default', price: { vp: 0, usd: 0, eur: 0 } },
+                { name: 'Radiant Crisis 001', price: { vp: 1775, usd: 17.75, eur: 16.50 } },
+                { name: 'Protocol 781-A', price: { vp: 2175, usd: 21.75, eur: 20.50 } },
+                { name: 'BlastX', price: { vp: 2175, usd: 21.75, eur: 20.50 } }
+            ],
+            bucky: [
+                { name: 'Default', price: { vp: 0, usd: 0, eur: 0 } },
+                { name: 'Oni', price: { vp: 1775, usd: 17.75, eur: 16.50 } },
+                { name: 'Winterwunderland', price: { vp: 1275, usd: 12.75, eur: 12.00 } }
+            ],
+            judge: [
+                { name: 'Default', price: { vp: 0, usd: 0, eur: 0 } },
+                { name: 'Glitchpop', price: { vp: 2175, usd: 21.75, eur: 20.50 } },
+                { name: 'Doodle Buds', price: { vp: 1775, usd: 17.75, eur: 16.50 } }
+            ],
+            bulldog: [
+                { name: 'Default', price: { vp: 0, usd: 0, eur: 0 } },
+                { name: 'Velocity', price: { vp: 875, usd: 8.75, eur: 8.25 } },
+                { name: 'Monstrocity', price: { vp: 1275, usd: 12.75, eur: 12.00 } }
+            ],
+            guardian: [
+                { name: 'Default', price: { vp: 0, usd: 0, eur: 0 } },
+                { name: 'RGX 11z Pro', price: { vp: 2175, usd: 21.75, eur: 20.50 } },
+                { name: 'Ruination', price: { vp: 1775, usd: 17.75, eur: 16.50 } }
+            ],
+            phantom: [
+                { name: 'Default', price: { vp: 0, usd: 0, eur: 0 } },
+                { name: 'Oni', price: { vp: 1775, usd: 17.75, eur: 16.50 } },
+                { name: 'Prime', price: { vp: 1775, usd: 17.75, eur: 16.50 } },
+                { name: 'Spectrum', price: { vp: 2175, usd: 21.75, eur: 20.50 } },
+                { name: 'ChronoVoid', price: { vp: 2175, usd: 21.75, eur: 20.50 } }
+            ],
+            vandal: [
+                { name: 'Default', price: { vp: 0, usd: 0, eur: 0 } },
+                { name: 'Reaver', price: { vp: 1775, usd: 17.75, eur: 16.50 } },
+                { name: 'Elderflame', price: { vp: 2475, usd: 24.75, eur: 23.50 } },
+                { name: 'Gaia\'s Vengeance', price: { vp: 2175, usd: 21.75, eur: 20.50 } }
+            ],
+            marshal: [
+                { name: 'Default', price: { vp: 0, usd: 0, eur: 0 } },
+                { name: 'Divine Swine', price: { vp: 1275, usd: 12.75, eur: 12.00 } },
+                { name: 'Singularity', price: { vp: 2175, usd: 21.75, eur: 20.50 } }
+            ],
+            outlaw: [
+                { name: 'Default', price: { vp: 0, usd: 0, eur: 0 } },
+                { name: 'Araxys', price: { vp: 2175, usd: 21.75, eur: 20.50 } },
+                { name: 'Neo Frontier', price: { vp: 1775, usd: 17.75, eur: 16.50 } }
+            ],
+            operator: [
+                { name: 'Default', price: { vp: 0, usd: 0, eur: 0 } },
+                { name: 'Glitchpop', price: { vp: 2175, usd: 21.75, eur: 20.50 } },
+                { name: 'Radiant Crisis 001', price: { vp: 1775, usd: 17.75, eur: 16.50 } },
+                { name: 'Ion', price: { vp: 1775, usd: 17.75, eur: 16.50 } }
+            ],
+            ares: [
+                { name: 'Default', price: { vp: 0, usd: 0, eur: 0 } },
+                { name: 'Nebula', price: { vp: 875, usd: 8.75, eur: 8.25 } },
+                { name: 'Nunca Olvidados', price: { vp: 1275, usd: 12.75, eur: 12.00 } }
+            ],
+            odin: [
+                { name: 'Default', price: { vp: 0, usd: 0, eur: 0 } },
+                { name: 'Glitchpop', price: { vp: 2175, usd: 21.75, eur: 20.50 } },
+                { name: 'BlastX', price: { vp: 2175, usd: 21.75, eur: 20.50 } }
+            ],
+            melee: [
+                { name: 'Default', price: { vp: 0, usd: 0, eur: 0 } },
+                { name: 'Reaver Karambit', price: { vp: 4350, usd: 43.50, eur: 41.00 } },
+                { name: 'Elderflame Dagger', price: { vp: 4350, usd: 43.50, eur: 41.00 } },
+                { name: 'Glitchpop Axe', price: { vp: 4350, usd: 43.50, eur: 41.00 } },
+                { name: 'Oni Claw', price: { vp: 3550, usd: 35.50, eur: 33.50 } }
+            ]
+        };
+
+        // Utility Functions
+        const UTILS = {
+            formatPrice(price, currency = 'vp') {
+                const symbol = CONFIG.CURRENCY.SYMBOLS[currency];
+                const value = price[currency];
+                
+                switch(currency) {
+                    case 'vp':
+                        return `${value} ${symbol}`;
+                    case 'usd':
+                    case 'eur':
+                        return `${symbol}${value.toFixed(2)}`;
+                    default:
+                        return `${value} VP`;
+                }
+            },
+
+            storage: {
+                get(key) {
+                    try {
+                        const item = localStorage.getItem(key);
+                        return item ? JSON.parse(item) : null;
+                    } catch (error) {
+                        console.error('Error reading from localStorage:', error);
+                        return null;
+                    }
+                },
+                
+                set(key, value) {
+                    try {
+                        localStorage.setItem(key, JSON.stringify(value));
+                        return true;
+                    } catch (error) {
+                        console.error('Error writing to localStorage:', error);
+                        return false;
+                    }
+                }
+            }
+        };
+
+        // Main Application Class
+        class ValorantSkinPicker {
+            constructor() {
+                this.selectedSkins = {};
+                this.currentCurrency = 'vp';
+                this.skinData = MOCK_SKINS;
+                
+                this.init();
+            }
+
+            init() {
+                this.loadPreferences();
+                this.setupEventListeners();
+                this.updateTotalCost();
+                this.updateWeaponSlots();
+            }
+
+            loadPreferences() {
+                const savedSkins = UTILS.storage.get('valorant_selected_skins');
+                if (savedSkins) {
+                    this.selectedSkins = savedSkins;
+                }
+
+                const savedCurrency = UTILS.storage.get('valorant_currency');
+                if (savedCurrency) {
+                    this.currentCurrency = savedCurrency;
+                    this.updateCurrencyUI();
+                }
+            }
+
+            savePreferences() {
+                UTILS.storage.set('valorant_selected_skins', this.selectedSkins);
+                UTILS.storage.set('valorant_currency', this.currentCurrency);
+            }
+
+            setupEventListeners() {
+                // Currency toggle buttons
+                document.querySelectorAll('.currency-btn').forEach(btn => {
+                    btn.addEventListener('click', (e) => this.handleCurrencyChange(e));
+                });
+
+                // Weapon slots
+                document.querySelectorAll('.weapon-slot').forEach(slot => {
+                    slot.addEventListener('click', (e) => this.handleWeaponClick(e));
+                });
+
+                // Modal close events
+                const modal = document.getElementById('skinModal');
+                const closeBtn = document.getElementById('closeModal');
+                
+                if (closeBtn) {
+                    closeBtn.addEventListener('click', () => this.closeModal());
+                }
+                
+                if (modal) {
+                    modal.addEventListener('click', (e) => {
+                        if (e.target === modal) {
+                            this.closeModal();
+                        }
+                    });
+                }
+
+                // Keyboard events
+                document.addEventListener('keydown', (e) => {
+                    if (e.key === 'Escape') {
+                        this.closeModal();
+                    }
+                });
+
+                // GitHub link
+                const githubLink = document.getElementById('githubLink');
+                if (githubLink) {
+                    githubLink.addEventListener('click', (e) => {
+                        e.preventDefault();
+                        window.open(CONFIG.GITHUB_URL, '_blank');
+                    });
+                }
+
+                // Save on page unload
+                window.addEventListener('beforeunload', () => {
+                    this.savePreferences();
+                });
+            }
+
+            handleCurrencyChange(event) {
+                const newCurrency = event.target.dataset.currency;
+                if (newCurrency && newCurrency !== this.currentCurrency) {
+                    this.currentCurrency = newCurrency;
+                    
+                    // Update active button
+                    document.querySelectorAll('.currency-btn').forEach(btn => {
+                        btn.classList.remove('active');
+                    });
+                    event.target.classList.add('active');
+                    
+                    // Update UI
+                    this.updateTotalCost();
+                    this.updateWeaponSlots();
+                    this.savePreferences();
+                }
+            }
+
+            handleWeaponClick(event) {
+                const weaponSlot = event.currentTarget;
+                const weapon = weaponSlot.dataset.weapon;
+                
+                if (weapon) {
+                    this.openSkinModal(weapon);
+                }
+            }
+
+            openSkinModal(weapon) {
+                const modal = document.getElementById('skinModal');
+                const modalTitle = document.getElementById('modalTitle');
+                const skinsGrid = document.getElementById('skinsGrid');
+
+                modalTitle.textContent = `Choose ${weapon.charAt(0).toUpperCase() + weapon.slice(1)} Skin`;
+                
+                // Clear and populate skins grid
+                skinsGrid.innerHTML = '';
+                
+                const skins = this.skinData[weapon] || [];
+                skins.forEach(skin => {
+                    const skinDiv = document.createElement('div');
+                    skinDiv.className = 'skin-option';
+                    if (this.selectedSkins[weapon] && this.selectedSkins[weapon].name === skin.name) {
+                        skinDiv.classList.add('selected');
+                    }
+                    
+                    skinDiv.innerHTML = `
+                        <div class="skin-option-name">${skin.name}</div>
+                        <div class="skin-option-price">${UTILS.formatPrice(skin.price, this.currentCurrency)}</div>
+                    `;
+                    
+                    skinDiv.addEventListener('click', () => {
+                        this.selectSkin(weapon, skin);
+                        this.closeModal();
+                    });
+                    
+                    skinsGrid.appendChild(skinDiv);
+                });
+                
+                modal.style.display = 'flex';
+                setTimeout(() => modal.classList.add('show'), 10);
+            }
+
+            closeModal() {
+                const modal = document.getElementById('skinModal');
+                modal.classList.remove('show');
+                setTimeout(() => modal.style.display = 'none', 300);
+            }
+
+            selectSkin(weapon, skin) {
+                this.selectedSkins[weapon] = skin;
+                this.updateWeaponSlot(weapon);
+                this.updateTotalCost();
+                this.savePreferences();
+            }
+
+            updateWeaponSlot(weapon) {
+                const weaponSlot = document.querySelector(`[data-weapon="${weapon}"]`);
+                if (!weaponSlot) return;
+
+                const selectedSkin = this.selectedSkins[weapon];
+                
+                if (selectedSkin && selectedSkin.name !== 'Default') {
+                    weaponSlot.classList.add('selected');
+                    
+                    // Update or add skin name and price
+                    let skinNameEl = weaponSlot.querySelector('.skin-name');
+                    let skinPriceEl = weaponSlot.querySelector('.skin-price');
+                    
+                    if (!skinNameEl) {
+                        skinNameEl = document.createElement('div');
+                        skinNameEl.className = 'skin-name';
+                        weaponSlot.appendChild(skinNameEl);
+                    }
+                    
+                    if (!skinPriceEl) {
+                        skinPriceEl = document.createElement('div');
+                        skinPriceEl.className = 'skin-price';
+                        weaponSlot.appendChild(skinPriceEl);
+                    }
+                    
+                    skinNameEl.textContent = selectedSkin.name;
+                    skinPriceEl.textContent = UTILS.formatPrice(selectedSkin.price, this.currentCurrency);
+                } else {
+                    weaponSlot.classList.remove('selected');
+                    const skinNameEl = weaponSlot.querySelector('.skin-name');
+                    const skinPriceEl = weaponSlot.querySelector('.skin-price');
+                    if (skinNameEl) skinNameEl.remove();
+                    if (skinPriceEl) skinPriceEl.remove();
+                }
+            }
+
+            updateWeaponSlots() {
+                Object.keys(this.selectedSkins).forEach(weapon => {
+                    this.updateWeaponSlot(weapon);
+                });
+            }
+
+            updateTotalCost() {
+                let totalCost = 0;
+                
+                Object.values(this.selectedSkins).forEach(skin => {
+                    if (skin && skin.price) {
+                        totalCost += skin.price[this.currentCurrency] || 0;
+                    }
+                });
+                
+                const totalCostEl = document.getElementById('totalCost');
+                if (totalCostEl) {
+                    totalCostEl.textContent = `TOTAL COST: ${UTILS.formatPrice({ [this.currentCurrency]: totalCost }, this.currentCurrency)}`;
+                }
+            }
+
+            updateCurrencyUI() {
+                const currencyBtn = document.querySelector(`[data-currency="${this.currentCurrency}"]`);
+                if (currencyBtn) {
+                    document.querySelectorAll('.currency-btn').forEach(btn => btn.classList.remove('active'));
+                    currencyBtn.classList.add('active');
+                }
+            }
+        }
+
+        // Initialize application when DOM is loaded
+        document.addEventListener('DOMContentLoaded', () => {
+            window.app = new ValorantSkinPicker();
+        });
+    </script>
+</body>
+</html>
