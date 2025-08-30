@@ -107,10 +107,38 @@ class ValorantSkinPicker {
         
         // Define category order
         const categoryOrder = ['Sidearms', 'SMGs', 'Shotguns', 'Rifles', 'Sniper Rifles', 'Machine Guns', 'Melee'];
+
+        // Define weapon order within each category
+        const weaponOrder = {
+            'Sidearms': ['Classic', 'Shorty', 'Frenzy', 'Ghost', 'Sheriff'],
+            'SMGs': ['Stinger', 'Spectre'],
+            'Shotguns': ['Bucky', 'Judge'],
+            'Rifles': ['Bulldog', 'Guardian', 'Phantom', 'Vandal'],
+            'Sniper Rifles': ['Marshal', 'Outlaw', 'Operator'],
+            'Machine Guns': ['Ares', 'Odin'],
+            'Melee': ['Melee']
+        }
         
         categoryOrder.forEach(category => {
             if (groupedWeapons[category]) {
-                const categoryElement = UIComponents.createWeaponCategory(category, groupedWeapons[category]);
+                // Sort weapons according to custom order
+                const categoryWeaponOrder = weaponOrder[category] || [];
+                const sortedWeapons = groupedWeapons[category].sort((a, b) => {
+                    const indexA = categoryWeaponOrder.indexOf(a.name);
+                    const indexB = categoryWeaponOrder.indexOf(b.name);
+                    
+                    // If both weapons are in the order array, sort by their position
+                    if (indexA !== -1 && indexB !== -1) {
+                        return indexA - indexB;
+                    }
+                    // If only one is in the order array, prioritize it
+                    if (indexA !== -1) return -1;
+                    if (indexB !== -1) return 1;
+                    // If neither is in the order array, sort alphabetically
+                    return a.name.localeCompare(b.name);
+                });
+
+                const categoryElement = UIComponents.createWeaponCategory(category, sortedWeapons);
                 weaponsGrid.appendChild(categoryElement);
                 
                 // Add click listeners to weapon slots
