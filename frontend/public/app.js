@@ -77,6 +77,75 @@ class ValorantSkinPicker {
             });
         }
 
+        // Reset All button
+        const resetAllBtn = document.getElementById('resetAllBtn');
+        if (resetAllBtn) {
+            resetAllBtn.addEventListener('click', () => {
+                // Show confirmation dialog
+                const hasSelectedSkins = Object.keys(this.selectedSkins).length > 0;
+                
+                if (hasSelectedSkins) {
+                    const confirmed = confirm('Are you sure you want to reset all selected skins? This action cannot be undone.');
+                    
+                    if (confirmed) {
+                        // Clear all selected skins
+                        this.selectedSkins = {};
+                        
+                        // Reset all weapon slots to default state
+                        document.querySelectorAll('.weapon-slot').forEach(weaponSlot => {
+                            UIComponents.updateWeaponSlotWithSkin(weaponSlot, null, this.currentCurrency);
+                        });
+                        
+                        // Update total cost and save preferences
+                        this.updateTotalCost();
+                        this.savePreferences();
+                        
+                        // Show success feedback
+                        resetAllBtn.style.background = '#00d4ff';
+                        resetAllBtn.style.color = 'white';
+                        resetAllBtn.innerHTML = `
+                            <svg class="reset-icon" viewBox="0 0 24 24" fill="currentColor">
+                                <path d="M9 16.2L4.8 12l-1.4 1.4L9 19 21 7l-1.4-1.4L9 16.2z"/>
+                            </svg>
+                            Reset Complete
+                        `;
+                        
+                        // Reset button appearance after 2 seconds
+                        setTimeout(() => {
+                            resetAllBtn.style.background = 'transparent';
+                            resetAllBtn.style.color = 'var(--primary-color)';
+                            resetAllBtn.innerHTML = `
+                                <svg class="reset-icon" viewBox="0 0 24 24" fill="currentColor">
+                                    <path d="M17.65 6.35C16.2 4.9 14.21 4 12 4c-4.42 0-7.99 3.58-7.99 8s3.57 8 7.99 8c3.73 0 6.84-2.55 7.73-6h-2.08c-.82 2.33-3.04 4-5.65 4-3.31 0-6-2.69-6-6s2.69-6 6-6c1.66 0 3.14.69 4.22 1.78L13 11h7V4l-2.35 2.35z"/>
+                                </svg>
+                                Reset All
+                            `;
+                        }, 2000);
+                    }
+                } else {
+                    // No skins selected, show brief feedback
+                    resetAllBtn.style.color = '#888';
+                    resetAllBtn.innerHTML = `
+                        <svg class="reset-icon" viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/>
+                        </svg>
+                        No skins selected
+                    `;
+                    
+                    // Reset after 1.5 seconds
+                    setTimeout(() => {
+                        resetAllBtn.style.color = 'var(--primary-color)';
+                        resetAllBtn.innerHTML = `
+                            <svg class="reset-icon" viewBox="0 0 24 24" fill="currentColor">
+                                <path d="M17.65 6.35C16.2 4.9 14.21 4 12 4c-4.42 0-7.99 3.58-7.99 8s3.57 8 7.99 8c3.73 0 6.84-2.55 7.73-6h-2.08c-.82 2.33-3.04 4-5.65 4-3.31 0-6-2.69-6-6s2.69-6 6-6c1.66 0 3.14.69 4.22 1.78L13 11h7V4l-2.35 2.35z"/>
+                            </svg>
+                            Reset All
+                        `;
+                    }, 1500);
+                }
+            });
+        }
+
         // Keyboard events
         document.addEventListener('keydown', (e) => {
             if (e.key === 'Escape') {
