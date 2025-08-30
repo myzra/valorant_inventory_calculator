@@ -107,9 +107,12 @@ class UIComponents {
         // Remove existing skin info
         const existingSkinName = weaponSlot.querySelector('.skin-name');
         const existingSkinPrice = weaponSlot.querySelector('.skin-price');
+        const existingRemoveBtn = weaponSlot.querySelector('.remove-skin-btn');
+
         if (existingSkinName) existingSkinName.remove();
         if (existingSkinPrice) existingSkinPrice.remove();
-        
+        if (existingRemoveBtn) existingRemoveBtn.remove();
+
         // Update the weapon image
         const weaponImage = weaponSlot.querySelector('.weapon-image');
 
@@ -130,6 +133,26 @@ class UIComponents {
             skinPrice.className = 'skin-price';
             skinPrice.textContent = UTILS.formatPrice(skin.price, currentCurrency);
             
+            const removeBtn = document.createElement('button');
+            removeBtn.className = 'remove-skin-btn';
+            removeBtn.innerHTML = '×';
+            removeBtn.title = 'Remove skin selection';
+            
+            removeBtn.addEventListener('click', (e) => {
+                e.stopPropagation();
+                
+                const weaponId = parseInt(weaponSlot.dataset.weaponId);
+                
+                if (window.app && window.app.selectedSkins) {
+                    delete window.app.selectedSkins[weaponId];
+                    window.app.updateTotalCost();
+                    window.app.savePreferences();
+                }
+                
+                this.updateWeaponSlotWithSkin(weaponSlot, null, currentCurrency);
+            });
+            
+            weaponSlot.appendChild(removeBtn);
             weaponSlot.appendChild(skinName);
             weaponSlot.appendChild(skinPrice);
         } else {
