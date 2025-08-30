@@ -1,6 +1,6 @@
 const CONFIG = {
     API: {
-        BASE_URL: 'http://localhost:8000/api', // springboot app URL
+        BASE_URL: 'http://localhost:8080/api', // springboot app URL
         ENDPOINTS: {
             WEAPONS: '/weapons',
             SKINS: '/skins'
