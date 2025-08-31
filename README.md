@@ -39,6 +39,7 @@ Whether you're a casual player looking to treat yourself to a few skins or a col
 - **Java** - Core programming language
 - **Spring Boot** - Web application framework
 - **Render** - Cloud hosting platform for the backend API
+- **Docker** - Dockerfile
 
 ### 🗄️ Database
 - **Supabase** - PostgreSQL database hosting and management
