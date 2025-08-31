@@ -11,7 +11,7 @@ public class WebConfig implements WebMvcConfigurer {
     @Override
     public void addCorsMappings(CorsRegistry registry) {
         registry.addMapping("/api/**")
-                .allowedOrigins("http://myzra.github.io")
+                .allowedOrigins("https://myzra.github.io")
                 .allowedMethods("GET")
                 .allowedHeaders("*")
                 .allowCredentials(true);
