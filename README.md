@@ -18,11 +18,11 @@ Whether you're a casual player looking to treat yourself to a few skins or a col
 ## 🖥️ Demo
 
 ### 🗂️ Main Interface
-![Main Calculator Interface](demo-image-1.png)
+![Main Calculator Interface](docs/demo-image-1.png)
 *Browse and select skins for each weapon category*
 
 ### 💰 Cost Summary
-![Cost Summary Display](demo-image-2.png)
+![Cost Summary Display](docs/demo-image-2.png)
 *View your total investment across different currencies*
 
 **⚠️ Disclaimer: The website may occasionally be down due to server maintenance or hosting limitations. If you encounter any issues accessing the site, please try again later.**
