@@ -13,7 +13,7 @@ public class WebConfig implements WebMvcConfigurer {
         registry.addMapping("/api/**")
                 .allowedOrigins("https://myzra.github.io")
                 .allowedMethods("GET")
-                .allowedHeaders("*")
-                .allowCredentials(true);
+                .allowedHeaders("*");
+                //.allowCredentials(true);
     }
 }
